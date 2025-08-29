@@ -51,7 +51,7 @@ while True:
     video_writer.write(annotated_frame)
 
  
-    cv2.imshow("🔍 YOLOv8 Live - Trash Detection", annotated_frame)
+    cv2.imshow(" YOLOv8 Live - Trash Detection", annotated_frame)
 
     
     if cv2.waitKey(1) & 0xFF == ord("q"):
