@@ -1,0 +1,67 @@
+import cv2
+from ultralytics import YOLO
+from djitellopy import Tello
+import time
+
+
+tello = Tello()
+tello.connect()
+print(f"Battery: {tello.get_battery()}%")
+
+
+tello.streamon()
+tello.takeoff()
+
+time.sleep(6)
+
+model = YOLO(r"/Users/macbook/Downloads/best.pt")
+
+
+unique_ids = set()
+
+frame = tello.get_frame_read().frame
+video_writer = cv2.VideoWriter(
+    "tello_detection_output.mp4", 
+    cv2.VideoWriter_fourcc(*'mp4v'), 
+    20.0, 
+    (frame.shape[1], frame.shape[0])
+)
+
+while True:
+    frame = tello.get_frame_read().frame
+
+    results = model.track(frame, persist=True)
+
+    if results[0].boxes.id is not None:
+        ids = results[0].boxes.id.cpu().numpy().astype(int)
+        unique_ids.update(ids)
+
+   
+    annotated_frame = results[0].plot()
+    cv2.putText(annotated_frame,
+                f"Unique Trash Count: {len(unique_ids)}",
+                (10, 30),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                1,
+                (0, 255, 0),
+                2)
+    
+    
+   
+    video_writer.write(annotated_frame)
+
+ 
+    cv2.imshow("🔍 YOLOv8 Live - Trash Detection", annotated_frame)
+
+    
+    if cv2.waitKey(1) & 0xFF == ord("q"):
+        break
+
+
+tello.land()
+
+
+tello.streamoff()
+print(f"\nFinal Unique Trash Detected: {len(unique_ids)} item(s)")
+video_writer.release()
+cv2.destroyAllWindows()
