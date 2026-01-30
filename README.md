@@ -13,7 +13,7 @@ This project was developed as part of a **training program organized by The Saud
 
 
 ## Project team
-- Danyh Alotaibi
-- Leena Alonayq
+- Danyh Alotaibi - @Danyh-Dev
+- Leena Alonayq  - @lollileeno
 - Raghad Ala'abrah
 - Lama Alshehri
