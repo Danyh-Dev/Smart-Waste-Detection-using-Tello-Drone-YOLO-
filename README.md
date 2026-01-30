@@ -12,7 +12,7 @@ This project was developed as part of a **training program organized by The Saud
 - For training the YOLO model, we used **pre-collected datasets from Roboflow**, a platform for image dataset management and labeling.  
 
 
-##Project team
+## Project team
 -Danyh Alotaibi
 -Leena Alonayq
 -Raghad Ala'abrah
